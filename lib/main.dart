@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:bmi_assignment/SecondPage.dart'; //this is done to import the path of the second page in first page
+
 
 void main() {
   runApp(const BmiApp());
@@ -26,6 +28,7 @@ class _MyHomePageState extends State<MyHomePage> {
   double height = 0;
   double weight = 60;
   double result = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,11 +135,21 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 )),
             Container(
+
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
                       onPressed: () {
+                        //Navigator.routes can allow you to go from one page to any page without having to push pop only
+                        Navigator.push( //Pushes the new page onto the stack of pages
+                            context,//context contains info about layout of widgets in a page (context of the current page)
+                            MaterialPageRoute(builder: (context)=> SecondPage(result: result) // This is the second parameter of the navigator push function which is the route.
+                            //MaterialPageRoute has builder: where you put (context) and has => which means return, over there you put the page you're pushing in this case SecondPage
+                              //In this SecondPage(), we add the variables which we are passing to the next page as a parameter, in this case we're passing result so we type- result: result
+                            )
+                        );
+
                         setState((){ //Refreshes the whole class you're working with, in this case
                           result = weight / ((height / 100) * (height / 100));
                           print(result);
@@ -156,20 +169,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
-            Container(
-              color: Colors.pinkAccent,
-              height: 75,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "BMI is ${result.toStringAsFixed(1)}",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white, fontSize: 30),
-                  )
-                ],
-              ),
-            )
           ],
         ));
   }
